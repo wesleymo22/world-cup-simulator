@@ -1,0 +1,46 @@
+.groups{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.countries-row{
+  display: flex;
+  justify-content: space-between;
+  width: 860px;
+}
+
+.group-text{
+  font-family: 'Poppins';
+  color: black;
+  font-weight: 400;
+  font-size: 24px;
+  margin: 0;
+  margin-bottom: 12px;
+}
+
+.countries-collum{
+  width: 200px;
+}
+
+.country{
+  height: 40px;
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: move;
+  background-color: gray;
+
+}
+
+
+.flag{
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  background-size: cover;
+  background-position: center;
+  background-color: white;
+}
