@@ -2,7 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  filter: drop-shadow(0px,3px,6px rgba(0,0,0.25));
 
+  :last-child.countries-row{
+    margin-top: 20px;
+  }
 }
 
 .countries-row{
@@ -13,7 +17,7 @@
 
 .group-text{
   font-family: 'Poppins';
-  color: black;
+  color: #FFF;
   font-weight: 400;
   font-size: 24px;
   margin: 0;
@@ -31,10 +35,24 @@
   flex-direction: row;
   align-items: center;
   cursor: move;
-  background-color: gray;
+  background-color: #F0F0F0;
 
 }
 
+.country:first-child{
+  border-start-end-radius: 8px;
+  border-start-start-radius: 8px;
+  background-color: #A2E1B0;;
+}
+
+.country:nth-child(2){
+  background-color: #daf9e1;;
+}
+
+.country:last-child{
+  border-end-end-radius: 8px;
+  border-end-start-radius: 8px;
+}
 
 .flag{
   width: 28px;
@@ -43,4 +61,35 @@
   background-size: cover;
   background-position: center;
   background-color: white;
+  margin-left: 8px;
+}
+
+.country-name{
+  font-size: 16px;
+  font-family: 'Poppins';
+  margin-left: 8px;
+}
+
+.cdk-drag-animating{
+  transition: transform 250ms cubic-bezier(0,0,0.2,1);
+}
+
+.countries-collum.cdk-drop-list-dragging .country:not(.cdk-drag-placeholder){
+  transition: transform 250ms cubic-bezier(0,0,0.2,1);
+}
+
+.country-collum.cdk-drop-list-dragging.country{
+  border-radius: 0px;
+}
+
+.placeholder {
+  background: #ccc;
+  border: dotted 2px #999;
+  box-sizing: border-box;
+  min-height: 40px;
+  transition: transform 250ms cubic-bezier(0,0,0.2,1);
+}
+
+.country.cdk-drag-preview {
+  border-radius: 0px;
 }
