@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Match, Team } from './Models/Team';
+import { TeamsService } from './services/teams.service';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,13 @@ import { Match, Team } from './Models/Team';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
+constructor(service: TeamsService) {
+  service.getGroups().subscribe(groups => {
+    this.groups = groups
+    this.populateKnockouts(groups);
+  })
+}
+
   title = 'world-cup-simulator-web';
   groups!: Team[][]
   roundOf16!: Match[]
@@ -16,6 +24,15 @@ export class AppComponent implements OnInit{
   winner!: Team
 
   ngOnInit() {
+    this.initRoundOf16();
+    this.initQuarter();
+    this.initSemi();
+    this.initFinal();
+    this.initWinner();
+  }
+
+  onMoveTeam(groups: any){
+    this.populateKnockouts(groups);
     this.initRoundOf16();
     this.initQuarter();
     this.initSemi();
@@ -82,6 +99,18 @@ export class AppComponent implements OnInit{
 
   getBackgroundStyle(team: any){
     return {'background-image':'url('+ team?.img +')'}
+  }
+
+  populateKnockouts(groups: Team[][]){
+    this.roundOf16 = [];
+    this.roundOf16.push({teamOne: groups[0][0], teamTwo: groups[1][1]});
+    this.roundOf16.push({teamOne: groups[1][0], teamTwo: groups[0][1]});
+    this.roundOf16.push({teamOne: groups[2][0], teamTwo: groups[3][1]});
+    this.roundOf16.push({teamOne: groups[3][0], teamTwo: groups[2][1]});
+    this.roundOf16.push({teamOne: groups[4][0], teamTwo: groups[5][1]});
+    this.roundOf16.push({teamOne: groups[5][0], teamTwo: groups[4][1]});
+    this.roundOf16.push({teamOne: groups[6][0], teamTwo: groups[7][1]});
+    this.roundOf16.push({teamOne: groups[7][0], teamTwo: groups[6][1]});
   }
 
 }

@@ -1,6 +1,6 @@
-<app-groups></app-groups>
+<app-groups (moveTeam)="onMoveTeam($event)" [groups]="groups"></app-groups>
 <div class="knockouts">
-  <h1>Eliminatórias</h1>
+  <div class="title-text">Eliminatórias</div>
   <div class="row" #1>
     <div class="cell" (click)="changeQuarter(0, roundOf16[0].teamOne!)"><div class="flag" [ngStyle]="getBackgroundStyle(roundOf16[0].teamOne)"></div></div>
     <div class="cell bar right bottom"></div>

@@ -3,6 +3,7 @@ using WorldCup_Simulator;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
 builder.Services.AddDbContext<WorldCupContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ServerConnection")));
 builder.Services.AddEndpointsApiExplorer();
@@ -15,6 +16,12 @@ app.UseSwaggerUI();
 
 
 app.UseHttpsRedirection();
+
+app.UseCors(p => p
+.AllowAnyOrigin()
+.AllowAnyHeader()
+.AllowAnyMethod()
+);
 
 app.MapGet("/api/teams/group", async (WorldCupContext context) =>
 {
