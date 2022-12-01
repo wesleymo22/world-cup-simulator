@@ -12,3 +12,7 @@ Swagger
 
 Frontend
 
+Angular,
+Material,
+Drag and Drop,
+HttpClient
