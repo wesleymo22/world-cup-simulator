@@ -33,27 +33,76 @@ constructor(service: TeamsService) {
 
   onMoveTeam(groups: any){
     this.populateKnockouts(groups);
-    this.initRoundOf16();
     this.initQuarter();
     this.initSemi();
     this.initFinal();
     this.initWinner();
   }
 
-  changeQuarter(LastMatch: Number, winner: Team){
+  changeQuarter(LastMatch: number, winner: Team){
+    if(this.roundOf16[LastMatch].teamOne?.name == '' ||
+      this.roundOf16[LastMatch].teamTwo?.name == '')
+        return;
 
+    var currentMatch = this.calculateNextMatch(LastMatch);
+    var isTeamOneSide = this.isTeamOneSideNextMatch(LastMatch);
+
+    if(isTeamOneSide)
+      this.quarter[currentMatch].teamOne = winner;
+    else
+      this.quarter[currentMatch].teamTwo = winner;
+
+      var nextMach = this.calculateNextMatch(currentMatch)
+      var loser = this.roundOf16[LastMatch].teamOne!.name == winner.name ?
+        this.roundOf16[LastMatch].teamTwo : this.roundOf16[LastMatch].teamOne
+
+      if(this.semi[nextMach].teamOne == loser || this.semi[nextMach].teamTwo == loser)
+      this.changeSemi(currentMatch, winner!, loser);
   }
 
-  changeSemi(LastMatch: Number, winner: Team, Loser: Team | undefined = undefined){
+  changeSemi(LastMatch: number, winner: Team, Loser: Team | undefined = undefined){
+    if(this.quarter[LastMatch].teamOne?.name == '' ||
+      this.quarter[LastMatch].teamTwo?.name == '')
+        return;
 
+    var currentMatch = this.calculateNextMatch(LastMatch);
+    var isTeamOneSide = this.isTeamOneSideNextMatch(LastMatch);
+
+    if(isTeamOneSide)
+      this.semi[currentMatch].teamOne = winner;
+    else
+      this.semi[currentMatch].teamTwo = winner;
+
+    if(Loser == undefined)
+    Loser = this.quarter[LastMatch].teamOne!.name == winner.name ?
+      this.quarter[LastMatch].teamTwo : this.quarter[LastMatch].teamOne
+
+    if(this.final.teamOne == Loser || this.final.teamTwo == Loser)
+      this.changeFinal(currentMatch, winner, Loser);
   }
 
-  changeFinal(LastMatch: Number, winner: Team, Loser: Team | undefined = undefined){
+  changeFinal(LastMatch: number, winner: Team, Loser: Team | undefined = undefined){
+    if(this.semi[LastMatch].teamOne?.name == '' ||
+      this.semi[LastMatch].teamTwo?.name == '')
+      return;
 
+    switch(LastMatch){
+      case 0:
+        this.final.teamOne = winner
+        break;
+      case 1:
+        this.final.teamTwo = winner
+        break;
+
+    }
   }
 
   changeWinner(winner: Team){
+    if(this.final.teamOne?.name == '' ||
+    this.final.teamTwo?.name == '')
 
+      return;
+    this.winner = winner;
   }
 
   initRoundOf16(){
@@ -113,5 +162,44 @@ constructor(service: TeamsService) {
     this.roundOf16.push({teamOne: groups[7][0], teamTwo: groups[6][1]});
   }
 
+  calculateNextMatch(match: number){
+    switch(match)
+    {
+      case 0:
+        return 0;
+      case 2:
+        return 0;
+      case 1:
+        return 1;
+      case 3:
+        return 1;
+      case 4:
+        return 2;
+      case 6:
+        return 2;
+      case 5:
+        return 3;
+      case 7:
+        return 3;
+      default:
+        return 0;
+    }
+  }
+
+  isTeamOneSideNextMatch(LastMatch: number){
+    switch(LastMatch){
+      case 0:
+      case 1:
+      case 4:
+      case 5:
+        return true;
+      case 2:
+      case 3:
+      case 6:
+      case 7:
+        default:
+          return false;
+    }
+  }
 }
 
